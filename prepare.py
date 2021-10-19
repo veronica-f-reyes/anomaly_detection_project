@@ -25,7 +25,7 @@ def prepare_data():
         
         #Acquire Code Up curriculum  data using function in acquire.py
         df = acquire.get_cohort_log_data()
-        
+
         # Create new column to capture program type
         # create a list of our programs
         programs = [
@@ -51,6 +51,9 @@ def prepare_data():
         df.end_date = pd.to_datetime(df.end_date)
         df.created_at = pd.to_datetime(df.created_at)
         df.updated_at = pd.to_datetime(df.updated_at)
+
+        # Rename date and time columns to denote that they are log date and times
+        df.rename(columns={"date": "log_date", "time": "log_time"})
 
 
 
