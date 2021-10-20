@@ -44,6 +44,9 @@ def prepare_data():
         # drop 'deleted_at' column because no entries have a value, all are null - looks like no logs have been deleted
         df = df.drop(columns=['deleted_at'])
 
+        # drop columns with null entries
+        df = df.dropna()
+
         # make 'time' column a date/time type
         df.time = pd.to_datetime(df.time)
         df.date = pd.to_datetime(df.date)
@@ -55,7 +58,8 @@ def prepare_data():
         # Rename date and time columns to denote that they are log date and times
         df.rename(columns={"date": "log_date", "time": "log_time"})
 
-
+        # Write that dataframe to disk for later. Called "caching" the data for later.
+        df.to_csv(filename)
 
     return df
 
