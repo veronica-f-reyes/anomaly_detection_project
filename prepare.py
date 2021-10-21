@@ -47,6 +47,9 @@ def prepare_data():
         # drop columns with null entries
         df = df.dropna()
 
+        #Combine date and time columns into one date-time column to use for indexing
+        df = df.set_index(pd.to_datetime(df.date + ' ' + df.time))
+
         # make 'time' column a date/time type
         df.time = pd.to_datetime(df.time)
         df.date = pd.to_datetime(df.date)
@@ -57,6 +60,9 @@ def prepare_data():
 
         # Rename date and time columns to denote that they are log date and times
         df.rename(columns={"date": "log_date", "time": "log_time"})
+
+        # Rename name column to cohort and id column to cohort_id
+        df.rename(columns={"name": "cohort", "id": "cohort_id"})
 
         # Write that dataframe to disk for later. Called "caching" the data for later.
         df.to_csv(filename)
